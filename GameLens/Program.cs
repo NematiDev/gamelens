@@ -1,5 +1,6 @@
 using GameLens.Data;
 using GameLens.Models.Domain;
+using GameLens.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<IGameService, GameService>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 

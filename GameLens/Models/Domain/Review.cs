@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameLens.Models.Domain
 {
@@ -13,11 +14,14 @@ namespace GameLens.Models.Domain
         public string? Content { get; set; }
         [Range(1, 10, ErrorMessage = "Rating must be between 1 and 10.")]
         public int Rating { get; set; }
-        public int LikeCount { get; set; } = 0;
+        public virtual ICollection<ReviewLike> Likes { get; set; } = new List<ReviewLike>();
+        public ICollection<ReviewComment> Comments { get; set; } = new List<ReviewComment>();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [ForeignKey("Game")]
         public int GameId { get; set; }
         public Game? Game { get; set; }
+        [ForeignKey("ApplicationUser")]
         public string UserId { get; set; } = null!;
         public ApplicationUser? User { get; set; }
     }
