@@ -14,9 +14,6 @@ namespace GameLens.Models.DTOs
         [JsonPropertyName("background_image")]
         public string? BackgroundImage { get; set; }
 
-        [JsonPropertyName("rating")]
-        public double? Rating { get; set; }
-
         [JsonPropertyName("metacritic")]
         public int? Metacritic { get; set; }
 

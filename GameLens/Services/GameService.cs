@@ -187,7 +187,6 @@ namespace GameLens.Services
                 Id = rawgGame.Id,
                 Name = rawgGame.Name,
                 Description = rawgGame.Description,
-                AverageRating = rawgGame.Rating,
                 Metacritic = rawgGame.Metacritic,
                 Released = rawgGame.Released,
                 LocalBackgroundImage = backgroundImagePath,

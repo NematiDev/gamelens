@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\ViewModels\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\images\games\" />
   </ItemGroup>
