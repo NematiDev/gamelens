@@ -190,10 +190,35 @@ namespace GameLens.Services
                 Metacritic = rawgGame.Metacritic,
                 Released = rawgGame.Released,
                 LocalBackgroundImage = backgroundImagePath,
-                Genres = rawgGame.Genres?.Select(g => new Genre { Id = g.Id, Name = g.Name }).ToList() ?? new List<Genre>(),
-                Platforms = rawgGame.Platforms?.Select(p => new Platform { Id = p.Platform.Id, Name = p.Platform.Name }).ToList() ?? new List<Platform>(),
-                Developers = rawgGame.Developers?.Select(d => new Developer { Id = d.Id, Name = d.Name }).ToList() ?? new List<Developer>(),
-                Publishers = rawgGame.Publishers?.Select(p => new Publisher { Id = p.Id, Name = p.Name }).ToList() ?? new List<Publisher>()
+                Genres = rawgGame.Genres?.Select(g =>
+                {
+                    var existingGenre = _dbContext.Genres.Local.FirstOrDefault(x =>  x.Id == g.Id)
+                                        ?? _dbContext.Genres.FirstOrDefault(x => x.Id == g.Id);
+
+                    return existingGenre ?? new Genre { Id = g.Id, Name = g.Name };
+                }).ToList<Genre>() ?? new List<Genre>(),
+                Platforms = rawgGame.Platforms?.Select(p =>
+                {
+                    var platformId = p.Platform.Id;
+                    var existingPlatform = _dbContext.Platforms.Local.FirstOrDefault(x => x.Id == platformId)
+                                           ?? _dbContext.Platforms.FirstOrDefault(x => x.Id == platformId);
+
+                    return existingPlatform ?? new Platform { Id = platformId, Name = p.Platform.Name };
+                }).ToList() ?? new List<Platform>(),
+                Developers = rawgGame.Developers?.Select(d =>
+                {
+                    var existingDeveloper = _dbContext.Developers.Local.FirstOrDefault(x => x.Id == d.Id)
+                                        ?? _dbContext.Developers.FirstOrDefault(x => x.Id == d.Id);
+
+                    return existingDeveloper ?? new Developer { Id = d.Id, Name = d.Name };
+                }).ToList<Developer>() ?? new List<Developer>(),
+                Publishers = rawgGame.Publishers?.Select(p =>
+                {
+                    var existingPublisher = _dbContext.Publishers.Local.FirstOrDefault(x => x.Id == p.Id)
+                                        ?? _dbContext.Publishers.FirstOrDefault(x => x.Id == p.Id);
+
+                    return existingPublisher ?? new Publisher { Id = p.Id, Name = p.Name };
+                }).ToList<Publisher>() ?? new List<Publisher>()
             };
 
             _dbContext.Games.Add(game);
